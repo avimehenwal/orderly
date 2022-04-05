@@ -13,6 +13,9 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_object(self):
+        return self.request.user
+
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
