@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # custom apps
     'orderapp',
     'rest_framework',
-    'rest_framework_simplejwt'
+    'django_extensions',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [

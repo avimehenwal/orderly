@@ -14,6 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
+        """ override object behaviour to return ONLY the current user information """
         return self.request.user
 
 
@@ -27,6 +28,12 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
+    """Restful Structure:
+        | URL style      | HTTP Method | URL Nanme     | Action Function |
+        |----------------|-------------|---------------|-----------------|
+        | /person        | GET, POST   | person-list   | person-list     |
+        | /person/<id>   | GET, DELETE | person-detail | person-detail   |
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticated]
