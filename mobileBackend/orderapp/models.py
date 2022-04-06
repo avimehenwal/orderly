@@ -13,6 +13,8 @@ class Product(models.Model):
 
 class Order(models.Model):
     id = models.BigAutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateField()
-    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(
+        User, related_name='user', on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, related_name='item', on_delete=models.CASCADE)

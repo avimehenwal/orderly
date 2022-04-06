@@ -1,11 +1,12 @@
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions
-from orderapp.serializers import UserSerializer, GroupSerializer, ProductSerializer, OrderSerializer
-from .models import Product, Order
-from rest_framework.views import APIView
+from django.contrib.auth.models import Group, User
+from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
-import json
+from rest_framework.views import APIView
+
+from orderapp.serializers import (GroupSerializer, OrderSerializer,
+                                  ProductSerializer, UserSerializer)
+
+from .models import Order, Product
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -47,31 +48,28 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
+    # def perform_create(self, serializer):
+    #     data = self.request.data
+    #     product_id = data['product']
+    #     new_product_detail = Product.objects.filter(id=product_id)
+    #     new_product_detail.quantity_in_stock = 100
+    #     new_product_detail.save()
+    #     serializer.save(
+    #         user_id=self.request.user,
+    #         date_created=timezone.now()
+    #     )
 
-class ListOrders(APIView):
-    """
-    View to list all users in the system.
 
-    * Requires token authentication.
-    * Only admin users are able to access this view.
-    """
-    # authentication_classes = [authentication.TokenAuthentication]
-    # permission_classes = [permissions.IsAdminUser]
-
-    def get(self, request, format=None):
-        """
-        Return a list of all orders.
-        """
-        usernames = [user.username for user in User.objects.all()]
-        return Response(usernames)
+class UpdateOrders(APIView):
 
     def post(self, request):
         """
-        Make an orders.
+        Reduce stock quantity when an order is made.
         """
-        # serializer = SnippetSerializer(data=request.data)
-        serializer = json.loads(request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        product_id = request.data['product']
+        # new_product_detail = get_object_or_404(Product, pk=product_id)
+        new_product_detail = Product.objects.get(id=product_id)
+        new_product_detail.quantity_in_stock -= 1
+        new_product_detail.save()
+        serializer = ProductSerializer(new_product_detail)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
