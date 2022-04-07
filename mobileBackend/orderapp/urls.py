@@ -19,7 +19,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('update-order/', UpdateOrders.as_view(), name='update_orders'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('user/orders', UserOrders.as_view(), name='user_orders'),
+    path('user/order-history', UserOrders.as_view(), name='user_orders'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]
