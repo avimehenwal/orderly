@@ -16,3 +16,4 @@
 - Dockerize the python application using a Dockerfile
 - tag and push the new image to the container registry
 - set-up a web-hook or a CI/CD process for deploying the new image from registry to contaner environment or kubernetes
+

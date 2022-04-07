@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-from .views import UpdateOrders
+from .views import UpdateOrders, UserOrders
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -19,6 +19,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('update-order/', UpdateOrders.as_view(), name='update_orders'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('user/orders', UserOrders.as_view(), name='user_orders'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]

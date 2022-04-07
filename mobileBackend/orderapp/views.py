@@ -7,6 +7,7 @@ from orderapp.serializers import (GroupSerializer, OrderSerializer,
                                   ProductSerializer, UserSerializer)
 
 from .models import Order, Product
+from rest_framework import generics
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -73,3 +74,16 @@ class UpdateOrders(APIView):
         new_product_detail.save()
         serializer = ProductSerializer(new_product_detail)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class UserOrders(generics.ListAPIView):
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        # user_id = self.request.user
+        user_id = 2
+        return Order.objects.filter(user_id=user_id)
