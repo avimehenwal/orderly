@@ -81,9 +81,11 @@ class UserOrders(generics.ListAPIView):
 
     def get_queryset(self):
         """
-        This view should return a list of all the purchases
-        for the currently authenticated user.
+        This view should return the order history for the currently authenticated user.
+        else hardcoded user 2
         """
-        # user_id = self.request.user
-        user_id = 2
+        if self.request.user.is_authenticated:
+            user_id = self.request.user
+        else:
+            user_id = 2
         return Order.objects.filter(user_id=user_id)
