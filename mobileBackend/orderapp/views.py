@@ -8,6 +8,7 @@ from orderapp.serializers import (GroupSerializer, OrderSerializer,
 
 from .models import Order, Product
 from rest_framework import generics
+from django.db import transaction
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -61,6 +62,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     #     )
 
 
+@transaction.non_atomic_requests
 class UpdateOrders(APIView):
 
     def post(self, request):
